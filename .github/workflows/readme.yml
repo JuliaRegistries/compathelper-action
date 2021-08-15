@@ -1,0 +1,21 @@
+name: README
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: julia-actions/setup-julia@v1
+        with:
+          version: '1'
+      - run: julia --color=yes --project=.ci -e 'import Pkg; Pkg.instantiate()'
+      - run: julia --color=yes --project=.ci -e 'import Pkg; Pkg.precompile()'
+      - run: julia --color=yes --project=.ci .ci/check_readme.jl
