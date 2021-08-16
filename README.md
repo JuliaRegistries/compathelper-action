@@ -1,6 +1,6 @@
 # compathelper-action
 
-## Example
+## Example Usage
 
 ```yaml
 name: CompatHelper
