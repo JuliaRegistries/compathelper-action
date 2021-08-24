@@ -7,15 +7,15 @@ branding:
   color: 'green'
 
 inputs:
-  ### Required inputs
-  token:
-    description: 'A GitHub token with write access on your repository'
-    required: true
   ### Optional inputs
   ssh:
     description: 'An SSH deploy key with write access on your repository'
     required: false
     default: ''
+  token:
+    description: 'A GitHub token with write access on your repository'
+    required: false
+    default: ${{ github.token }}
   version:
     description: 'Major version of CompatHelper.jl to use'
     required: false
