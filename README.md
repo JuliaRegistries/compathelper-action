@@ -14,6 +14,5 @@ jobs:
     steps:
       - uses: JuliaRegistries/compathelper-action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           ssh: ${{ secrets.DOCUMENTER_KEY }}
 ```
