@@ -8,6 +8,10 @@ branding:
 
 inputs:
   ### Optional inputs
+  cmd:
+    description: 'The CompatHelper command to run. If you provide this input, you MUST also provide the `version` input.'
+    required: false
+    default: 'CompatHelper.main()'
   ssh:
     description: 'An SSH deploy key with write access on your repository'
     required: false
@@ -38,7 +42,7 @@ runs:
       shell: julia --color=yes {0}
     - run: |
         import CompatHelper
-        CompatHelper.main()
+        ${{ inputs.cmd }}
       shell: julia --color=yes {0}
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
