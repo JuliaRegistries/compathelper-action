@@ -1,5 +1,5 @@
 name: 'CompatHelper'
-description: 'Automatically update the [compat] entries for your Julia package\'s dependencies'
+description: 'Automatically update the [compat] entries for your Julia package''s dependencies'
 author: 'Dilum Aluthge and contributors'
 
 branding:
