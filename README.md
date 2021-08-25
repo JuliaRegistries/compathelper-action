@@ -1,5 +1,7 @@
 # compathelper-action
 
+The `compathelper-action` is a composite action that makes it easy and convenient to use [CompatHelper.jl](https://github.com/JuliaRegistries/CompatHelper.jl).
+
 ## Example Usage
 
 ```yaml
