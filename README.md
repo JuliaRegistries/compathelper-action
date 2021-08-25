@@ -4,6 +4,8 @@ The `compathelper-action` is a composite action that makes it easy and convenien
 
 ## Example Usage
 
+Create a file in your repository at `.github/workflows/CompatHelper.yml` with the following contents:
+
 ```yaml
 name: CompatHelper
 on:
