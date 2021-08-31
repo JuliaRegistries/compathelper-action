@@ -18,4 +18,4 @@ jobs:
           version: '1'
       - run: julia --color=yes --project=.ci -e 'import Pkg; Pkg.instantiate()'
       - run: julia --color=yes --project=.ci -e 'import Pkg; Pkg.precompile()'
-      - run: julia --color=yes --project=.ci .ci/check_readme.jl
+      - run: julia --color=yes --project=.ci -e 'include(".ci/readme.jl"); check_readme(pwd())'
