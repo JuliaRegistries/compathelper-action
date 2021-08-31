@@ -1,0 +1,58 @@
+name: Update convenience tags
+on:
+  pull_request: # TODO: delete this line
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+jobs:
+  update_tags:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Create and/or update tags
+        shell: julia --color=yes {0}
+        run: |
+          git_tag = read(`git tag`, String)
+          tag_list_strs = strip.(split(strip(git_tag), '\n'))
+          tag_list = tryparse.(Ref(VersionNumber), tag_list_strs)
+          filter!(ver -> ver isa VersionNumber, tag_list)
+          filter!(ver -> isempty(ver.prerelease), tag_list)
+          maj_vers = [ver.major for ver in tag_list]
+          maj_min_vers = [(ver.major, ver.minor) for ver in tag_list]
+          tags_to_update_strs = Pair{String, String}[]
+          for maj_ver in unique(maj_vers)
+              matching_tags = filter(
+                  ver -> ver.major == maj_ver,
+                  tag_list,
+              )
+              convenience_tag_str = string("v", Int(maj_ver))
+              max_matching_tag_str = string("v", maximum(matching_tags))
+              p = convenience_tag_str => max_matching_tag_str
+              push!(tags_to_update_strs, p)
+          end
+          for maj_min_ver in unique(maj_min_vers)
+              maj_ver = maj_min_ver[1]
+              min_ver = maj_min_ver[2]
+              matching_tags = filter(
+                  ver -> ver.major == maj_ver,
+                  tag_list,
+              )
+              filter!(
+                  ver -> ver.minor == min_ver,
+                  tag_list,
+              )
+              convenience_tag_str = string("v", Int(maj_ver), ".", Int(min_ver))
+              max_matching_tag_str = string("v", maximum(matching_tags))
+              p = convenience_tag_str => max_matching_tag_str
+              push!(tags_to_update_strs, p)
+          end
+          for p in tags_to_update_strs
+              convenience_tag_str = p[1]
+              max_matching_tag_str = p[2]
+              @info "$(convenience_tag_str) ---> $(max_matching_tag_str)"
+              run(`git tag -f $(convenience_tag_str) $(max_matching_tag_str)`)
+          end
+      - run: git push -f --tags
