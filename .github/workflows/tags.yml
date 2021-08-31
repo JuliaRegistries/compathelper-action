@@ -19,7 +19,8 @@ jobs:
           tag_list_strs = strip.(split(strip(git_tag), '\n'))
           tag_list = tryparse.(Ref(VersionNumber), tag_list_strs)
           filter!(ver -> ver isa VersionNumber, tag_list)
-          filter!(ver -> isempty(ver.prerelease), tag_list)
+          filter!(ver -> isempty(ver.prerelease), tag_list) # exclude pre-releases
+          filter!(ver -> ver.major == 0, tag_list) # exclude pre-1.0 tags
           maj_vers = [ver.major for ver in tag_list]
           maj_min_vers = [(ver.major, ver.minor) for ver in tag_list]
           tags_to_update_strs = Pair{String, String}[]
