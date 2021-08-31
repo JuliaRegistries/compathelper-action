@@ -17,6 +17,8 @@ jobs:
         run: |
           git_tag = read(`git tag`, String)
           tag_list_strs = strip.(split(strip(git_tag), '\n'))
+          filter!(str -> occursin(r"^v[\d]*?$", strip(lowercase(str))), tag_list_strs)
+          filter!(str -> occursin(r"^v[\d]*?\.[\d]*?$", strip(lowercase(str))), tag_list_strs)
           tag_list = tryparse.(Ref(VersionNumber), tag_list_strs)
           filter!(ver -> ver isa VersionNumber, tag_list)
           filter!(ver -> isempty(ver.prerelease), tag_list) # exclude pre-releases
