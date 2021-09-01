@@ -24,7 +24,6 @@ jobs:
           filter!(ver -> isempty(ver.prerelease), tag_list) # exclude pre-releases
           filter!(ver -> ver.major != 0, tag_list) # exclude pre-1.0 tags
           maj_vers = [ver.major for ver in tag_list]
-          maj_min_vers = [(ver.major, ver.minor) for ver in tag_list]
           tags_to_update_strs = Pair{String, String}[]
           for maj_ver in unique(maj_vers)
               matching_tags = filter(
@@ -32,22 +31,6 @@ jobs:
                   tag_list,
               )
               convenience_tag_str = string("v", Int(maj_ver))
-              max_matching_tag_str = string("v", maximum(matching_tags))
-              p = convenience_tag_str => max_matching_tag_str
-              push!(tags_to_update_strs, p)
-          end
-          for maj_min_ver in unique(maj_min_vers)
-              maj_ver = maj_min_ver[1]
-              min_ver = maj_min_ver[2]
-              matching_tags = filter(
-                  ver -> ver.major == maj_ver,
-                  tag_list,
-              )
-              filter!(
-                  ver -> ver.minor == min_ver,
-                  tag_list,
-              )
-              convenience_tag_str = string("v", Int(maj_ver), ".", Int(min_ver))
               max_matching_tag_str = string("v", maximum(matching_tags))
               p = convenience_tag_str => max_matching_tag_str
               push!(tags_to_update_strs, p)
