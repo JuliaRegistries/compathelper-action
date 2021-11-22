@@ -1,6 +1,5 @@
 name: Update convenience tags
 on:
-  pull_request: # TODO: delete this line
   push:
     tags:
       - '*'
