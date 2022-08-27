@@ -32,6 +32,7 @@ runs:
         import Pkg
         ENV["JULIA_PKG_SERVER"] = ""
         Pkg.Registry.add("General")
+        Pkg.Registry.update("General")
       shell: julia --color=yes {0}
     - run: |
         import Pkg
