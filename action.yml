@@ -21,7 +21,7 @@ inputs:
     required: false
     default: ''
   version:
-    description: 'Major version of CompatHelper.jl to use'
+    description: 'Version of CompatHelper.jl to use'
     required: false
     default: '3'
 
