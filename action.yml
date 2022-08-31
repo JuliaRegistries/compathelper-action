@@ -13,7 +13,7 @@ inputs:
     required: true
   ### Optional inputs
   cmd:
-    description: 'The CompatHelper command to run. If you provide this input, you MUST also provide the `version` input.'
+    description: 'The CompatHelper command to run.'
     required: false
     default: 'CompatHelper.main()'
   ssh:
